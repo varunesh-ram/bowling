@@ -70,11 +70,11 @@ export default class ScoreCard extends React.Component {
         );
         rolls.push(
             <td key={(2 * frame) + 1} id={"r" + ((2 * frame) + 1)} colSpan={colSpanValue}>
-                {this.props.rolls.length > i + 1 ? this.isSpar(i) ? "/" : this.isStrike(i+1) ? "X" : this.props.rolls[i + 1] : ""}
+                {this.props.rolls.length > i + 1 ? this.isStrike(i + 1) ? "X" : !this.isStrike(i) && this.isSpar(i) ? "/" : this.props.rolls[i + 1] : ""}
             </td>);
         rolls.push(
             <td key={20} id={"r" + (20)} colSpan={colSpanValue}>
-                {this.props.rolls.length > i + 2 ? this.props.rolls[i + 2] === 10 ? "X" : this.props.rolls[i + 2] : ""}
+                {this.props.rolls.length > i + 2 ? this.isStrike(i + 2) ? "X" : this.props.rolls[i + 2] : ""}
             </td>);
     }
 
