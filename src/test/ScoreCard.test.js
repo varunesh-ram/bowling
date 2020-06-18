@@ -5,7 +5,7 @@ import ScoreCard from "../component/ScoreCard";
 describe("Scorecard component", () => {
     let wrapper;
     beforeEach(() => {
-        wrapper = shallow(<ScoreCard />);
+        wrapper = shallow(<ScoreCard rolls="" score=""u />);
     });
 
     it("should render correctly", () => {

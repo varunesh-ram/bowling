@@ -15,8 +15,10 @@ export default class ScoreCard extends React.Component {
         const rolls = [];
         for (let i = 0; i <= 20; i++) {
             const colSpanValue = i > 17 ? "2" : "3";
+            const value = this.props.rolls.length > i ? this.props.rolls[i] : "";
             rolls.push(
                 <td key={i} id={"r" + i} colSpan={colSpanValue}>
+                    {value}
                 </td>
             );
         }
@@ -43,6 +45,7 @@ export default class ScoreCard extends React.Component {
                         <tr>
                             {this.pinsDownOnRolls()}
                             <td id="total-score" colSpan="6">
+                                {this.props.score}
                             </td>
                         </tr>
                         <tr>{this.footer()}</tr>
