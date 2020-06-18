@@ -13,14 +13,31 @@ export default class ScoreCard extends React.Component {
 
     pinsDownOnRolls = () => {
         const rolls = [];
-        for (let i = 0; i <= 20; i++) {
-            const colSpanValue = i > 17 ? "2" : "3";
-            const value = this.props.rolls.length > i ? this.props.rolls[i] : "";
+        let i =0;
+        for (let frame = 0; frame < 10; frame++) {
+            const colSpanValue = frame > 8 ? "2" : "3";
+            let value1 = this.props.rolls.length > i ? this.props.rolls[i] : "";
+            let value2 = this.props.rolls.length > i + 1 ? this.props.rolls[i + 1] : "";
+            if ( value1 + value2 === 10){
+                value2 = "/";
+            }
             rolls.push(
                 <td key={i} id={"r" + i} colSpan={colSpanValue}>
-                    {value}
+                    {value1}
                 </td>
             );
+            rolls.push(
+                <td key={i+1} id={"r" + (i+1)} colSpan={colSpanValue}>
+                {value2}
+                </td>);
+                if (frame === 9){
+                    let value3 = this.props.rolls.length > i + 2 ? this.props.rolls[i + 2] : "";
+                    rolls.push(
+                        <td key={i+2} id={"r" + (i+2)} colSpan={colSpanValue}>
+                        {value3}
+                        </td>);
+                }
+            i+=2;
         }
         return rolls;
     };

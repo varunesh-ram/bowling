@@ -19,9 +19,17 @@ export default class BowlingGame extends React.Component {
 
     updateScore = (tempRolls) => {
         if (tempRolls.length > 19) {
-            const score = tempRolls.reduce(function (a, b) {
-                return a + b;
-            }, 0);
+            let score = 0, i = 0;
+            for (let frame = 0; frame < 10; frame++) {
+                if (tempRolls[i] + tempRolls[i + 1] === 10) {
+                    score += 10 + tempRolls[i + 2];
+                    i += 2;
+                }
+                else {
+                    score += tempRolls[i] + tempRolls[i + 1];
+                    i += 2;
+                }
+            }
             this.setState({ score });
         }
     };
