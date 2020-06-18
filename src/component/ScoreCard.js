@@ -36,6 +36,7 @@ export default class ScoreCard extends React.Component {
         for (let i = 0; i < 11; i++) {
             bottomLine.push(
                 <td key={"frame" + i} colSpan="6">
+                    {this.props.frameScore.length > i ? this.props.frameScore[i] :""}
                 </td>
             );
         }

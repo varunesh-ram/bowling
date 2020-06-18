@@ -8,7 +8,8 @@ export default class BowlingGame extends React.Component {
         this.state = {
             rolls: [],
             possibleRoll: 10,
-            isSecondRoll: false
+            isSecondRoll: false,
+            frameScore: []
         }
     }
 
@@ -27,7 +28,7 @@ export default class BowlingGame extends React.Component {
     };
 
     updateScore = (tempRolls) => {
-        let score = 0, i = 0, isGameOver = true;
+        let score = 0, i = 0, isGameOver = true, frameScore=[];
         for (let frame = 0; frame < 10; frame++) {
             if (i + 1 >= tempRolls.length) {
                 isGameOver = false;
@@ -53,7 +54,9 @@ export default class BowlingGame extends React.Component {
                 score += tempRolls[i] + tempRolls[i + 1];
                 i += 2;
             }
+            frameScore.push(score);
         }
+        this.setState({ frameScore });
         if (isGameOver) {
             this.setState({ score });
         }
@@ -63,7 +66,7 @@ export default class BowlingGame extends React.Component {
         return (
             <div className="Game">
                 <Pins pinsDown={this.updateRolls} possibleRoll={this.state.possibleRoll}/>
-                <ScoreCard rolls={this.state.rolls} score={this.state.score} />
+                <ScoreCard rolls={this.state.rolls} score={this.state.score} frameScore={this.state.frameScore} />
             </div>);
     };
 }
