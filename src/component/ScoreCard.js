@@ -13,31 +13,20 @@ export default class ScoreCard extends React.Component {
 
     pinsDownOnRolls = () => {
         const rolls = [];
-        let i =0;
+        let i = 0;
         for (let frame = 0; frame < 10; frame++) {
             const colSpanValue = frame > 8 ? "2" : "3";
-            let value1 = this.props.rolls.length > i ? this.props.rolls[i] : "";
-            let value2 = this.props.rolls.length > i + 1 ? this.props.rolls[i + 1] : "";
-            if ( value1 + value2 === 10){
-                value2 = "/";
+            if (frame === 9) {
+                this.generateRollsForTenthFrame(rolls, frame, colSpanValue, i);
             }
-            rolls.push(
-                <td key={i} id={"r" + i} colSpan={colSpanValue}>
-                    {value1}
-                </td>
-            );
-            rolls.push(
-                <td key={i+1} id={"r" + (i+1)} colSpan={colSpanValue}>
-                {value2}
-                </td>);
-                if (frame === 9){
-                    let value3 = this.props.rolls.length > i + 2 ? this.props.rolls[i + 2] : "";
-                    rolls.push(
-                        <td key={i+2} id={"r" + (i+2)} colSpan={colSpanValue}>
-                        {value3}
-                        </td>);
-                }
-            i+=2;
+            else {
+                this.generateRollsForFirstNineFrames(rolls, frame, colSpanValue, i);
+            }
+            if (this.isStrike(i)) {
+                i++;
+            } else {
+                i += 2;
+            }
         }
         return rolls;
     };
@@ -52,6 +41,42 @@ export default class ScoreCard extends React.Component {
         }
         return bottomLine;
     };
+
+    isStrike(i) {
+        return this.props.rolls[i] === 10;
+    }
+
+    generateRollsForFirstNineFrames(rolls, frame, colSpanValue, i) {
+        rolls.push(
+            <td key={(2 * frame)} id={"r" + (2 * frame)} colSpan={colSpanValue}>
+                {this.props.rolls.length > i ? this.isStrike(i) ? "" : this.props.rolls[i] : ""}
+            </td>
+        );
+        rolls.push(
+            <td key={(2 * frame) + 1} id={"r" + ((2 * frame) + 1)} colSpan={colSpanValue}>
+                {this.isStrike(i) ? "X" : this.props.rolls.length > i + 1 ? this.isSpar(i) ? "/" : this.props.rolls[i + 1] : ""}
+            </td>);
+    }
+
+    isSpar(i) {
+        return this.props.rolls[i] + this.props.rolls[i + 1] === 10;
+    }
+
+    generateRollsForTenthFrame(rolls, frame, colSpanValue, i) {
+        rolls.push(
+            <td key={(2 * frame)} id={"r" + (2 * frame)} colSpan={colSpanValue}>
+                {this.props.rolls.length > i ? this.isStrike(i) ? "X" : this.props.rolls[i] : ""}
+            </td>
+        );
+        rolls.push(
+            <td key={(2 * frame) + 1} id={"r" + ((2 * frame) + 1)} colSpan={colSpanValue}>
+                {this.props.rolls.length > i + 1 ? this.isSpar(i) ? "/" : this.isStrike(i+1) ? "X" : this.props.rolls[i + 1] : ""}
+            </td>);
+        rolls.push(
+            <td key={20} id={"r" + (20)} colSpan={colSpanValue}>
+                {this.props.rolls.length > i + 2 ? this.props.rolls[i + 2] === 10 ? "X" : this.props.rolls[i + 2] : ""}
+            </td>);
+    }
 
     render() {
         return (

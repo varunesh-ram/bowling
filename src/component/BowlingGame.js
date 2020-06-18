@@ -18,18 +18,34 @@ export default class BowlingGame extends React.Component {
     };
 
     updateScore = (tempRolls) => {
-        if (tempRolls.length > 19) {
-            let score = 0, i = 0;
-            for (let frame = 0; frame < 10; frame++) {
-                if (tempRolls[i] + tempRolls[i + 1] === 10) {
-                    score += 10 + tempRolls[i + 2];
-                    i += 2;
-                }
-                else {
-                    score += tempRolls[i] + tempRolls[i + 1];
-                    i += 2;
-                }
+        let score = 0, i = 0, isGameOver = true;
+        for (let frame = 0; frame < 10; frame++) {
+            if (i + 1 >= tempRolls.length) {
+                isGameOver = false;
+                break;
             }
+            if (tempRolls[i] === 10) {
+                if (i + 2 >= tempRolls.length) {
+                    isGameOver = false;
+                    break;
+                }
+                score += 10 + tempRolls[i + 1] + tempRolls[i + 2];
+                i++;
+            }
+            else if (tempRolls[i] + tempRolls[i + 1] === 10) {
+                if (i + 2 >= tempRolls.length) {
+                    isGameOver = false;
+                    break;
+                }
+                score += 10 + tempRolls[i + 2];
+                i += 2;
+            }
+            else {
+                score += tempRolls[i] + tempRolls[i + 1];
+                i += 2;
+            }
+        }
+        if (isGameOver) {
             this.setState({ score });
         }
     };

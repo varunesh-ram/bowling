@@ -84,4 +84,33 @@ describe(("<BowlingGame/> Game functionality"), () => {
 
         expect(totalScore).toEqual("20");
     });
+
+    it("should score game with a strike", () => {
+        const tenPin = wrapper.find(Pins).find("button").at(10);
+        const threePin = wrapper.find(Pins).find("button").at(3);
+        const zeroPin = wrapper.find(Pins).find("button").at(0);
+        tenPin.simulate("click");
+        threePin.simulate("click");
+        threePin.simulate("click");
+        for (let i = 0; i < 17; i++) {
+            zeroPin.simulate("click");
+        }
+        const totalScore = wrapper.find(ScoreCard).find("#total-score").text();
+        wrapper.find(ScoreCard).find("tr").at(1).find("td").forEach((cell,rollNo) => {
+            if (rollNo === 0){
+                expect(cell.text()).toEqual("");
+            }
+            else if (rollNo === 1){
+                expect(cell.text()).toEqual("X");
+            }
+            else if (rollNo === 2 || rollNo === 3 ){
+                expect(cell.text()).toEqual("3");
+            }
+            else if (rollNo < 20){
+                expect(cell.text()).toEqual("0");
+            }
+        });
+
+        expect(totalScore).toEqual("22");
+    });
 });
