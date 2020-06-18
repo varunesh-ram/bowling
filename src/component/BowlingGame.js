@@ -6,13 +6,22 @@ export default class BowlingGame extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            rolls: []
+            rolls: [],
+            possibleRoll: 10,
+            isSecondRoll: false
         }
     }
 
     updateRolls = (pinsDown) => {
         let tempRolls = this.state.rolls;
         tempRolls.push(pinsDown);
+        if (this.state.isSecondRoll || pinsDown === 10) {
+
+            this.setState({ possibleRoll: 10, isSecondRoll: false })
+        }
+        else {
+            this.setState({ possibleRoll: 10 - pinsDown, isSecondRoll: true })
+        }
         this.setState({ rolls: tempRolls });
         this.updateScore(tempRolls);
     };
@@ -53,7 +62,7 @@ export default class BowlingGame extends React.Component {
     render() {
         return (
             <div className="Game">
-                <Pins pinsDown={this.updateRolls} />
+                <Pins pinsDown={this.updateRolls} possibleRoll={this.state.possibleRoll}/>
                 <ScoreCard rolls={this.state.rolls} score={this.state.score} />
             </div>);
     };

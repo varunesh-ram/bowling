@@ -4,7 +4,7 @@ export default class Pins extends React.Component {
 
     pins = () => {
         let pins = [];
-        for (let i = 0; i < 11; i++) {
+        for (let i = 0; i <= this.props.possibleRoll ; i++) {
             pins.push(
                 <button id={"pin"+i} key={i} onClick={() => this.props.pinsDown(i)}>{i}</button>
             );
