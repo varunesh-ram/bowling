@@ -10,9 +10,9 @@ export default class BowlingGame extends React.Component {
         }
     }
 
-    updateRolls = () => {
+    updateRolls = (pinsDown) => {
         let tempRolls = this.state.rolls;
-        tempRolls.push(0);
+        tempRolls.push(pinsDown);
         this.setState({ rolls: tempRolls });
         this.updateScore(tempRolls);
     };

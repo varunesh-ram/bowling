@@ -44,4 +44,19 @@ describe(("<BowlingGame/> Game functionality"), () => {
 
         expect(totalScore).toEqual("0");
     });
+
+    it("should score game of ones as 20, if all frames score are 1", () => {
+        const onePin = wrapper.find(Pins).find("button").at(1);
+        for (let i = 0; i < 20; i++) {
+            onePin.simulate("click");
+        }
+        const totalScore = wrapper.find(ScoreCard).find("#total-score").text();
+        wrapper.find(ScoreCard).find("tr").at(1).find("td").forEach((cell,rollNo) => {
+            if (rollNo < 20){
+                expect(cell.text()).toEqual("1");
+            }
+        });
+
+        expect(totalScore).toEqual("20");
+    });
 });
